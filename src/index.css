@@ -1,0 +1,107 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #0d1117;
+  color: #ffffff;
+  padding: 40px 16px;
+}
+
+.container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+h1 {
+  font-size: 32px;
+  margin-bottom: 24px;
+  color: #f7931a;
+  text-align: center;
+}
+
+.campo-busca {
+  width: 100%;
+  padding: 12px 16px;
+  background-color: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 8px;
+  color: #ffffff;
+  font-size: 15px;
+  margin-bottom: 24px;
+  outline: none;
+}
+
+.campo-busca:focus {
+  border-color: #f7931a;
+}
+
+.lista-moedas {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 16px;
+}
+
+.crypto-card {
+  background-color: #161b22;
+  border: 1px solid #30363d;
+  border-radius: 12px;
+  padding: 20px;
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  transition: transform 0.2s;
+}
+
+.crypto-card:hover {
+  transform: translateY(-4px);
+  border-color: #f7931a;
+}
+
+.crypto-card img {
+  width: 48px;
+  height: 48px;
+}
+
+.crypto-info {
+  flex: 1;
+}
+
+.crypto-info h2 {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.simbolo {
+  font-size: 13px;
+  color: #8b949e;
+}
+
+.crypto-preco {
+  text-align: right;
+}
+
+.preco {
+  font-size: 16px;
+  font-weight: 500;
+}
+
+.variacao-positiva {
+  color: #3fb950;
+  font-size: 13px;
+}
+
+.variacao-negativa {
+  color: #f85149;
+  font-size: 13px;
+}
+
+.erro {
+  color: #f85149;
+  font-size: 14px;
+  text-align: center;
+  margin-bottom: 16px;
+}
