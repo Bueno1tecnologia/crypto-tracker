@@ -6,21 +6,32 @@ function App() {
   const [loading, setLoading] = useState(true)
   const [erro, setErro] = useState('')
   const [busca, setBusca] = useState('')
+  const [ultimaAtualizacao, setUltimaAtualizacao] = useState('')
 
   useEffect(() => {
     buscarMoedas()
+
+    const intervalo = setInterval(() => {
+      buscarMoedas(false)
+    }, 10000)
+
+    return () => clearInterval(intervalo)
   }, [])
 
-  async function buscarMoedas() {
+  async function buscarMoedas(mostrarLoading = true) {
+    if (mostrarLoading) setLoading(true)
+    setErro('')
+
     try {
       const resposta = await fetch(
         'https://api.coingecko.com/api/v3/coins/markets?vs_currency=usd&order=market_cap_desc&per_page=20&page=1'
       )
       const dados = await resposta.json()
       setMoedas(dados)
-      setLoading(false)
+      setUltimaAtualizacao(new Date().toLocaleTimeString())
     } catch {
       setErro('Erro ao buscar dados. Tente novamente.')
+    } finally {
       setLoading(false)
     }
   }
@@ -31,7 +42,24 @@ function App() {
 
   return (
     <div className="container">
-      <h1>Crypto Tracker</h1>
+      <div className="header">
+        <h1>Crypto Tracker</h1>
+        <div className="header-info">
+          {ultimaAtualizacao && (
+            <span className="ultima-atualizacao">
+              Atualizado às {ultimaAtualizacao}
+            </span>
+          )}
+          <button
+            className="btn-refresh"
+            onClick={() => buscarMoedas()}
+            disabled={loading}
+          >
+            {loading ? 'Atualizando...' : '↻ Atualizar'}
+          </button>
+        </div>
+      </div>
+
       <input
         className="campo-busca"
         type="text"
@@ -39,8 +67,22 @@ function App() {
         value={busca}
         onChange={e => setBusca(e.target.value)}
       />
-      {loading && <p>Carregando...</p>}
-      {erro && <p className="erro">{erro}</p>}
+
+      {loading && moedas.length === 0 && (
+        <div className="loading">
+          <p>Carregando moedas...</p>
+        </div>
+      )}
+
+      {erro && (
+        <div className="erro-container">
+          <p className="erro">{erro}</p>
+          <button className="btn-refresh" onClick={() => buscarMoedas()}>
+            Tentar novamente
+          </button>
+        </div>
+      )}
+
       <div className="lista-moedas">
         {moedasFiltradas.map(moeda => (
           <CryptoCard
